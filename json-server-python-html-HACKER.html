@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Execução Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 10px;
+        }
+        .output {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            height: 200px;
+            overflow-y: auto;
+        }
+        .btn-execute {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-execute:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Execução Python</h1>
+        <textarea id="codeArea" placeholder="Digite seu código Python aqui..."></textarea>
+        <button class="btn-execute" onclick="executePython()">Executar</button>
+        <h2>Saída:</h2>
+        <div class="output" id="outputArea">
+            <!-- A saída do código Python será exibida aqui -->
+        </div>
+    </div>
+
+    <script>
+        async function executePython() {
+            const code = document.getElementById('codeArea').value;
+            const outputArea = document.getElementById('outputArea');
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/python-execute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    outputArea.textContent = result.output;
+                } else {
+                    outputArea.textContent = 'Erro ao executar o código Python: ' + response.statusText;
+                }
+            } catch (error) {
+                outputArea.textContent = 'Erro ao executar o código Python: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
+<------------------------------------------------------------------->
+#server python
+
+from flask import Flask, request, jsonify
+import subprocess
+
+app = Flask(__name__)
+
+@app.route('/python-execute', methods=['POST'])
+def execute_python():
+    data = request.get_json()
+    code = data.get('code')
+
+    try:
+        # Executa o código Python recebido
+        result = subprocess.run(['python3', '-c', code], capture_output=True, text=True, timeout=10)
+        
+        # Retorna a saída padrão e o erro (se houver) como resposta JSON
+        return jsonify({'output': result.stdout + result.stderr})
+    
+    except subprocess.TimeoutExpired:
+        # Se o código demorar muito para ser executado
+        return jsonify({'output': 'Erro: O tempo de execução do código excedeu o limite.'})
+    
+    except Exception as e:
+        # Captura e retorna qualquer outro erro
+        return jsonify({'output': f'Erro ao executar o código: {str(e)}'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
