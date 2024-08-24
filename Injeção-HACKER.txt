@@ -1,0 +1,19 @@
+
+cracker web injection
+
+Crakear ifone==""::
+== ""::?1?2?3":
+==""::/login
+==fazer login usuario == admin
+passeord == ""::
+Injetar "":: //the best
+==""::tables""::
+==""::tables""::admin""::
+"""::tables""" //the best
+"""::login""" //the best
+""""::::?????2024 //the best
+"""::::santander //the best
+
+print('""":::', 'open tables 2024') //The best==inspecionar element 
+//injetar codigo no html e na barra de pesquisa
+//ir a fonte de pagina quando para o server
