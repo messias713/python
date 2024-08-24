@@ -17,3 +17,10 @@ Injetar "":: //the best
 print('""":::', 'open tables 2024') //The best==inspecionar element 
 //injetar codigo no html e na barra de pesquisa
 //ir a fonte de pagina quando para o server
+
+Forçar login em site
+== gfd@gmail.com
+==passe """::::
+OUTRA MANEIRA EFICAZ===
+inserir email fake no site resisto=== wes@gamil.com
+com a passe """::::
