@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtros de Cartoon</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Transformar Foto em Cartoon</h1>
+    <input type="file" id="upload" accept="image/*">
+    <canvas id="canvas"></canvas>
+    <div>
+        <button onclick="applyFilter(1)">Filtro 1</button>
+        <button onclick="applyFilter(2)">Filtro 2</button>
+        <button onclick="applyFilter(3)">Filtro 3</button>
+        <button onclick="applyFilter(4)">Filtro 4</button>
+        <button onclick="applyFilter(5)">Filtro 5</button>
+        <button onclick="applyFilter(6)">Filtro 6</button>
+        <button onclick="applyFilter(7)">Filtro 7</button>
+        <button onclick="applyFilter(8)">Filtro 8</button>
+        <button onclick="applyFilter(9)">Filtro 9</button>
+        <button onclick="applyFilter(10)">Filtro 10</button>
+        <button onclick="applyFilter(11)">Filtro 11</button>
+        <button onclick="applyFilter(12)">Filtro 12</button>
+        <button onclick="applyFilter(13)">Filtro 13</button>
+        <button onclick="applyFilter(14)">Filtro 14</button>
+        <button onclick="applyFilter(15)">Filtro 15</button>
+        <button onclick="applyFilter(16)">Filtro 16</button>
+        <button onclick="applyFilter(17)">Filtro 17</button>
+        <button onclick="applyFilter(18)">Filtro 18</button>
+        <button onclick="applyFilter(19)">Filtro 19</button>
+        <button onclick="applyFilter(20)">Filtro 20</button>
+    </div>
+
+    <h2>Combinar Duas Imagens</h2>
+    <input type="file" id="upload1" accept="image/*">
+    <input type="file" id="upload2" accept="image/*">
+    <button onclick="combineImages()">Combinar Imagens</button>
+    <canvas id="combinedCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let img = new Image();
+
+        document.getElementById('upload').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                img.src = e.target.result;
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                };
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function applyFilter(filterNumber) {
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3; // Média de RGB
+
+                // Aplicar diferentes filtros
+                switch (filterNumber) {
+                    case 1:
+                        data[i] = avg < 128 ? 0 : 255; // Preto e branco
+                        data[i + 1] = avg < 128 ? 0 : 255;
+                        data[i + 2] = avg < 128 ? 0 : 255;
+                        break;
+                    case 2:
+                        data[i] = avg;          // Red
+                        data[i + 1] = avg;      // Green
+                        data[i + 2] = avg;      // Blue
+                        break;
+                    case 3:
+                        data[i] = avg * 0.5;    // Red
+                        data[i + 1] = avg * 0.5; // Green
+                        data[i + 2] = avg * 0.5; // Blue
+                        break;
+                    case 4:
+                        data[i] = avg < 128 ? 0 : 255; // Preto e branco
+                        data[i + 1] = avg < 128 ? 0 : 255;
+                        data[i + 2] = avg < 128 ? 0 : 255;
+                        break;
+                    case 5:
+                        data[i] = avg * 0.8;    // Red
+                        data[i + 1] = avg * 0.2; // Green
+                        data[i + 2] = avg * 0.2; // Blue
+                        break;
+                    case 6:
+                        data[i] = avg * 0.2;    // Red
+                        data[i + 1] = avg * 0.8; // Green
+                        data[i + 2] = avg * 0.2; // Blue
+                        break;
+                    case 7:
+                        data[i] = avg * 0.2;    // Red
+                        data[i + 1] = avg * 0.2; // Green
+                        data[i + 2] = avg * 0.8; // Blue
+                        break;
+                    case 8:
+                        data[i] = avg < 128 ? 255 : 0; // Inversão
+                        data[i + 1] = avg < 128 ? 255 : 0;
+                        data[i + 2] = avg < 128 ? 255 : 0;
+                        break;
+                    case 9:
+                        data[i] = avg * 0.5;    // Red
+                        data[i + 1] = avg * 0.5; // Green
+                        data[i + 2] = avg * 0.5; // Blue
+                        break;
+                    case 10:
+                        data[i] = avg;          // Red
+                        data[i + 1] = avg;      // Green
+                        data[i + 2] = avg;      // Blue
+                        break;
+                    case 11:
+                        data[i] = avg * 1.2;    // Aumenta o brilho
+                        data[i + 1] = avg * 1.2;
+                        data[i + 2] = avg * 1.2;
+                        break;
+                    case 12:
+                        data[i] = avg * 0.3;    // Red
+                        data[i + 1] = avg * 0.3; // Green
+                        data[i + 2] = avg * 0.9; // Blue
+                        break;
+                    case 13:
+                        data[i] = avg < 128 ? 255 : 0; // Inversão com brilho
+                        data[i + 1] = avg < 128 ? 255 : 0;
+                        data[i + 2] = avg < 128 ? 255 : 0;
+                        break;
+                    case 14:
+                        data[i] = avg * 0.7;    // Red
+                        data[i + 1] = avg * 0.5; // Green
+                        data[i + 2] = avg * 0.3; // Blue
+                        break;
+                    case 15:
+                        data[i] = avg * 0.5;    // Red
+                        data[i + 1] = avg * 0.7; // Green
+                        data[i + 2] = avg * 0.5; // Blue
+                        break;
+                    case 16:
+                        data[i] = avg * 0.9;    // Red
+                        data[i + 1] = avg * 0.1; // Green
+                        data[i + 2] = avg * 0.1; // Blue
+                        break;
+                    case 17:
+                        data[i] = avg * 0.1;    // Red
+                        data[i + 1] = avg * 0.9; // Green
+                        data[i + 2] = avg * 0.1; // Blue
+                        break;
+                    case 18:
+                        data[i] = avg * 0.1;    // Red
+                        data[i + 1] = avg * 0.1; // Green
+                        data[i + 2] = avg * 0.9; // Blue
+                        break;
+                    case 19:
+                        data[i] = avg * 0.4;    // Red
+                        data[i + 1] = avg * 0.4; // Green
+                        data[i + 2] = avg * 0.4; // Blue
+                        break;
+                    case 20:
+                        data[i] = avg < 128 ? 255 : 0; // Preto e branco com inversão
+                        data[i + 1] = avg < 128 ? 255 : 0;
+                        data[i + 2] = avg < 128 ? 255 : 0;
+                        break;
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function combineImages() {
+            const file1 = document.getElementById('upload1').files[0];
+            const file2 = document.getElementById('upload2').files[0];
+
+            if (!file1 || !file2) {
+                alert("Por favor, selecione duas imagens.");
+                return;
+            }
+
+            const reader1 = new FileReader();
+            const reader2 = new FileReader();
+
+            reader1.onload = (e) => {
+                const img1 = new Image();
+                img1.src = e.target.result;
+
+                img1.onload = () => {
+                    const combinedCanvas = document.getElementById('combinedCanvas');
+                    const combinedCtx = combinedCanvas.getContext('2d');
+                    combinedCanvas.width = img1.width;
+                    combinedCanvas.height = img1.height;
+
+                    combinedCtx.drawImage(img1, 0, 0);
+
+                    reader2.onload = (e) => {
+                        const img2 = new Image();
+                        img2.src = e.target.result;
+
+                        img2.onload = () => {
+                            combinedCtx.drawImage(img2, 0, 0, img1.width, img1.height);
+                            const combinedImageData = combinedCtx.getImageData(0, 0, combinedCanvas.width, combinedCanvas.height);
+                            const combinedData = combinedImageData.data;
+
+                            for (let i = 0; i < combinedData.length; i += 4) {
+                                const avg = (combinedData[i] + combinedData[i + 1] + combinedData[i + 2]) / 3; // Média de RGB
+                                combinedData[i] = avg < 128 ? 0 : 255;     // Red
+                                combinedData[i + 1] = avg < 128 ? 0 : 255; // Green
+                                combinedData[i + 2] = avg < 128 ? 0 : 255; // Blue
+                            }
+
+                            combinedCtx.putImageData(combinedImageData, 0, 0);
+                        };
+                        img2.src = e.target.result;
+                    };
+                };
+            };
+
+            reader1.readAsDataURL(file1);
+            reader2.readAsDataURL(file2);
+        }
+    </script>
+</body>
+</html>
