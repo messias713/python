@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girar Caracteres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #output {
+            font-size: 24px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .rotated-char {
+            display: inline-block;
+            transform: rotate(180deg);
+            margin: 0; /* Remove a margem para que os caracteres fiquem juntos */
+        }
+    </style>
+</head>
+<h1>
+∖
+„
+⍟
+✱
+✱
+^
+~
+login=index=aspx)etc<br>the best cod==injet sql<br>fonte de pagina==ctrpl f==ation</h1>
+<body>
+
+    <h1>Girar Caracteres</h1>
+    <p>Digite um símbolo ou letra:</p>
+    <input type="text" id="inputChar" maxlength="1">
+    <button onclick="rotateCharacter()">Girar</button>
+    <button onclick="copyToClipboard()">Copiar Código</button>
+
+    <div id="output"></div>
+
+    <h2>Alfabeto e Caracteres</h2>
+    <p>
+        Letras: a b c d e f g h i j k l m n o p q r s t u v w x y z <br>
+        Números: 1 2 3 4 5 6 7 8 9 <br>
+        Caracteres Especiais: \ " * : @ # $ % & ( ) - + = { } [ ] ; ' < > , . /
+    </p>
+
+    <script>
+        function rotateCharacter() {
+            const inputChar = document.getElementById('inputChar').value;
+            const rotatedChars = {
+                'a': 'ɒ', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ',
+                'h': 'ɥ', 'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'ן', 'm': 'ɯ', 'n': 'u',
+                'o': 'o', 'p': 'd', 'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ', 'u': 'n',
+                'v': 'ʌ', 'w': 'ʍ', 'x': 'x', 'y': 'ʎ', 'z': 'z',
+                '1': '⅃', '2': 'ᄅ', '3': 'Ɛ', '4': 'ᔭ', '5': 'ϛ', '6': '9', '7': 'ㄥ',
+                '8': '8', '9': '6',
+                '\\': '∖', '"': '„', '*': '✱', ':': 'ː', '@': '⍟', '#': '♯', '$': '💲',
+                '%': '％', '&': '⅋', '(': ')', ')': '(', '-': '−', '+': '＋', '=': '＝',
+                '{': '}', '}': '{', '[': ']', ']': '[', ';': '؛', "'": '’', '<': '>', 
+                ',': '˥', '.': '˙', '/': '⁄'
+            };
+
+            const rotatedChar = rotatedChars[inputChar] || inputChar;
+            const outputDiv = document.getElementById('output');
+            const charSpan = document.createElement('span');
+            charSpan.className = 'rotated-char';
+            charSpan.innerText = rotatedChar;
+            outputDiv.appendChild(charSpan);
+            document.getElementById('inputChar').value = ''; // Limpa o campo de entrada
+        }
+
+        function copyToClipboard() {
+            const outputDiv = document.getElementById('output');
+            const range = document.createRange();
+            range.selectNode(outputDiv);
+            window.getSelection().removeAllRanges(); // Limpa a seleção anterior
+            window.getSelection().addRange(range); // Seleciona o conteúdo
+            document.execCommand('copy'); // Copia para a área de transferência
+            window.getSelection().removeAllRanges(); // Limpa a seleção
+            alert('Código copiado para a área de transferência!');
+        }
+    </script>
+
+</body>
+</html>
